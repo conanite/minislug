@@ -16,7 +16,8 @@ module Minislug
 
   module InstanceMethods
     def set_slug
-      self.slug = self.send(self.slug_source).strip.mb_chars.normalize(:kd).to_s.gsub(/\s/, '-').gsub(/[^0-9A-Za-z-]/, '')
+      proto_slug = self.send(self.slug_source) || ""
+      self.slug = proto_slug.strip.mb_chars.normalize(:kd).to_s.gsub(/\s/, '-').gsub(/[^0-9A-Za-z-]/, '')
     end
   end
 end
