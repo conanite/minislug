@@ -1,6 +1,15 @@
+# -*- coding: utf-8 -*-
+
 require "minislug/version"
 
 module Minislug
+  SUBSTITUTIONS = {
+    /[\s\/\\\(\)#\?]+/ => '-',
+    /\+/ => '-plus-',
+    /&/ => '-and-',
+    /-+/ => '-',
+  }
+
   module ClassMethods
     def sluggable source
       class_attribute :slug_source
@@ -14,10 +23,19 @@ module Minislug
     end
   end
 
+  def self.convert_to_slug txt
+    txt = txt.gsub(/ß/, /ss/)
+    txt = txt.strip.mb_chars.normalize(:kd)
+    SUBSTITUTIONS.each do |reg, rep|
+      txt = txt.gsub reg, rep
+    end
+    txt.gsub(/[^0-9A-Za-z-]/, '')
+  end
+
   module InstanceMethods
     def set_slug
       proto_slug = self.send(self.slug_source) || ""
-      self.slug = proto_slug.strip.mb_chars.normalize(:kd).to_s.gsub(/\s/, '-').gsub(/[^0-9A-Za-z-]/, '')
+      self.slug = Minislug.convert_to_slug proto_slug
     end
   end
 end
