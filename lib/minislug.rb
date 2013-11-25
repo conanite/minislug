@@ -24,7 +24,7 @@ module Minislug
   end
 
   def self.convert_to_slug txt
-    txt = txt.gsub(/ß/, /ss/)
+    txt = txt.gsub(/ß/, "ss")
     txt = txt.strip.mb_chars.normalize(:kd)
     SUBSTITUTIONS.each do |reg, rep|
       txt = txt.gsub reg, rep
