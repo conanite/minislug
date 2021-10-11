@@ -10,6 +10,9 @@ module Minislug
     /-+/ => '-',
   }
 
+  TR0 = "ÀÁÂÃÄÅàáâãäåĀāĂăĄąạảÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêểệễëĒēĔĕĖėĘęĚěẹĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıịỉĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôộỗổõöøŌōŎŏŐőọỏơởợỡŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųụưủửữựŴŵÝýÿŶŷŸŹźŻżŽžứừửựữốồộỗổờóợỏỡếềễểệẩẫấầậỳỹýỷỵặẵẳằắ"
+  TR1 = "AAAAAAaaaaaaAaAaAaaaCcCcCcCcCcDdDdDdEEEEeeeeeeEeEeEeEeEeeGgGgGgGgHhHhhIIIiiiiIiIiIiIiIiiiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOoooooooooOoOoOooooooooRrRrRrSsSsSsSsTtTtTttUUUUuuuuUuUuUuUuUuUuuuuuuuWwYyyYyYZzZzZzuuuuuooooooooooeeeeeaaaaayyyyyaaaaa"
+
   module ClassMethods
     def sluggable source
       class_attribute :slug_source
@@ -23,9 +26,10 @@ module Minislug
     end
   end
 
+
   def self.convert_to_slug txt
     txt = txt.gsub(/ß/, "ss")
-    txt = txt.strip.mb_chars.normalize(:kd)
+    txt = txt.tr TR0, TR1
     SUBSTITUTIONS.each do |reg, rep|
       txt = txt.gsub reg, rep
     end
