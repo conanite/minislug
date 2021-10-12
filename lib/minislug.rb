@@ -33,7 +33,7 @@ module Minislug
     SUBSTITUTIONS.each do |reg, rep|
       txt = txt.gsub reg, rep
     end
-    txt.gsub(/[^0-9A-Za-z-]/, '').gsub(/^-/, '').gsub(/-$/, '')
+    txt.gsub(/[^0-9A-Za-z-]/, '').gsub(/^-+/, '').gsub(/-+$/, '')
   end
 
   module InstanceMethods
